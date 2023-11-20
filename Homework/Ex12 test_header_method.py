@@ -10,4 +10,4 @@ class Test3:
 
         assert "x-secret-homework-header" in response.headers, "There is no header 'x-secret-homework-header' in the response"
 
-        assert header_value == "Some secret value", "There is wrong header value"
+        assert header_value == "Soma secret value", "There is wrong header value"

