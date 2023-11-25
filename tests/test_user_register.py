@@ -72,3 +72,19 @@ class TestUserRegister(BaseCase):
         Assertions.assert_code_status(response, 400)
         assert response.content.decode("utf-8") == f"The value of 'username' field is too short", \
             f'Unexpected response content {response.content}'
+
+    def test_create_user_with_long_name(self):
+        longname = 'it_is_a_vey_very_long_name_of_a_test_user_to_be_created_it_is_a_vey_very_long_name_of_a_test_user_to_be_created_it_is_a_vey_very_long_name_of_a_test_user_to_be_created_it_is_a_vey_very_long_name_of_a_test_user_to_be_created_it_is_a_vey_very_long_name_of_a_test_user',
+        data = {
+            'password': '123',
+            'username': longname,
+            'firstName': 'learnqa',
+            'lastName': 'learnqa',
+            'email': self.email
+        }
+
+        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+
+        Assertions.assert_code_status(response, 400)
+        assert response.content.decode("utf-8") == f"The value of 'username' field is too long", \
+            f'Unexpected response content {response.content}'
