@@ -1,9 +1,49 @@
+import pytest
 import requests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 from datetime import datetime
 
+
 class TestUserRegister(BaseCase):
+    values = [
+        (
+         None,
+         "learnqa",
+         "learnqa",
+         'learnqa',
+         'vinkotov@example.com'
+         ),
+        (
+         '123',
+         None,
+         'learnqa',
+         'learnqa',
+         'vinkotov@example.com'
+         ),
+        (
+         '123',
+         'learnqa',
+         None,
+         'learnqa',
+         'vinkotov@example.com'
+         ),
+        (
+         '123',
+         'learnqa',
+         'learnqa',
+         None,
+         'vinkotov@example.com'
+         ),
+        (
+         '123',
+         'learnqa',
+         'learnqa',
+         'learnqa',
+         None
+         )
+    ]
+
     def setup(self):
         base_part = 'learnqa'
         domain = 'example.com'
@@ -18,7 +58,6 @@ class TestUserRegister(BaseCase):
             'lastName': 'learnqa',
             'email': self.email
         }
-
         response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
 
         Assertions.assert_code_status(response, 200)
@@ -88,3 +127,16 @@ class TestUserRegister(BaseCase):
         Assertions.assert_code_status(response, 400)
         assert response.content.decode("utf-8") == f"The value of 'username' field is too long", \
             f'Unexpected response content {response.content}'
+
+    @pytest.mark.parametrize('password, username, firstName, lastName, email', values)
+    def test_create_user_without_one_parameter(self, password, username, firstName, lastName, email):
+        data = {
+            'password': password,
+            'username': username,
+            'firstName': firstName,
+            'lastName': lastName,
+            'email': email
+        }
+        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+        print(response.text)
+        Assertions.assert_code_status(response, 400)
