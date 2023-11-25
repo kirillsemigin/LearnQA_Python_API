@@ -74,7 +74,7 @@ class TestUserRegister(BaseCase):
             f'Unexpected response content {response.content}'
 
     def test_create_user_with_long_name(self):
-        longname = 'it_is_a_vey_very_long_name_of_a_test_user_to_be_created_it_is_a_vey_very_long_name_of_a_test_user_to_be_created_it_is_a_vey_very_long_name_of_a_test_user_to_be_created_it_is_a_vey_very_long_name_of_a_test_user_to_be_created_it_is_a_vey_very_long_name_of_a_test_user',
+        longname = ('very_long_name' * 20),
         data = {
             'password': '123',
             'username': longname,
