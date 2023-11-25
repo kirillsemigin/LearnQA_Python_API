@@ -37,5 +37,22 @@ class TestUserRegister(BaseCase):
        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
 
        Assertions.assert_code_status(response, 400)
-       assert response.content.decode("utf-8") == f"Users with email '{email}' already exists", f'Unexpected response content {response.content}'
+       assert response.content.decode("utf-8") == f"Users with email '{email}' already exists",\
+           f'Unexpected response content {response.content}'
 
+
+    def test_create_user_with_invalid_email(self):
+        email = 'vinkotovexample.com'
+        data = {
+            'password': '123',
+            'username': 'learnqa',
+            'firstName': 'learnqa',
+            'lastName': 'learnqa',
+            'email': email
+        }
+
+        response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
+
+        Assertions.assert_code_status(response, 400)
+        assert response.content.decode("utf-8") == f'Invalid email format', \
+            f'Unexpected response content {response.content}'
