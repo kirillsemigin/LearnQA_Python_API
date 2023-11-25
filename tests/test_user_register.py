@@ -7,41 +7,11 @@ from datetime import datetime
 
 class TestUserRegister(BaseCase):
     values = [
-        (
-         None,
-         "learnqa",
-         "learnqa",
-         'learnqa',
-         'vinkotov@example.com'
-         ),
-        (
-         '123',
-         None,
-         'learnqa',
-         'learnqa',
-         'vinkotov@example.com'
-         ),
-        (
-         '123',
-         'learnqa',
-         None,
-         'learnqa',
-         'vinkotov@example.com'
-         ),
-        (
-         '123',
-         'learnqa',
-         'learnqa',
-         None,
-         'vinkotov@example.com'
-         ),
-        (
-         '123',
-         'learnqa',
-         'learnqa',
-         'learnqa',
-         None
-         )
+        (None, 'learnqa', 'learnqa', 'learnqa', 'vinkotov@example.com'),
+        ('123', None, 'learnqa', 'learnqa', 'vinkotov@example.com'),
+        ('123', 'learnqa', None, 'learnqa', 'vinkotov@example.com'),
+        ('123', 'learnqa', 'learnqa', None, 'vinkotov@example.com'),
+        ('123', 'learnqa', 'learnqa', 'learnqa', None)
     ]
 
     def setup(self):
@@ -138,5 +108,6 @@ class TestUserRegister(BaseCase):
             'email': email
         }
         response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
-        print(response.text)
+        answer = response.text[42:]
         Assertions.assert_code_status(response, 400)
+        assert response.text == f'The following required params are missed: {answer}'
