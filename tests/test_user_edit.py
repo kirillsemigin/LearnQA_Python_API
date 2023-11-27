@@ -47,3 +47,15 @@ class TestUserEdit(BaseCase):
         )
 
         Assertions.assert_json_value_by_name(response4, "firstName", new_name, "Wrong name of the user after edit")
+
+    def test_change_user_without_authorization(self):
+        new_name = "Changed Name"
+        user_id = 1
+
+        response = requests.put(
+            f"https://playground.learnqa.ru/api/user/{user_id}",
+            data={"firstName": new_name})
+
+        Assertions.assert_code_status(response, 400)
+        assert response.text == f'Auth token not supplied', 'Unauthorized user tries to edit'
+
