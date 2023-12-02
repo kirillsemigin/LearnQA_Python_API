@@ -54,7 +54,7 @@ class TestUserRegister(BaseCase):
             'username': shortname,
             'firstName': 'learnqa',
             'lastName': 'learnqa',
-            'email': self.email
+            'email': self.prepare_registration_data()
         }
 
         response = MyRequests.post("/user/", data=data)
@@ -70,7 +70,7 @@ class TestUserRegister(BaseCase):
             'username': longname,
             'firstName': 'learnqa',
             'lastName': 'learnqa',
-            'email': self.email
+            'email': self.prepare_registration_data()
         }
 
         response = MyRequests.post("/user/", data=data)
