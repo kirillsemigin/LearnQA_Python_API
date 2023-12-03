@@ -1,10 +1,14 @@
 import json
-
+import allure
 from lib.my_requests import MyRequests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 
+@allure.epic("Editing cases")
 class TestUserEdit(BaseCase):
+    @allure.description("This test checks the abilty to edit user after creation")
+    @allure.feature('POSITIVE')
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_edit_just_created_user(self):
         #REGISTER
         register_data = self.prepare_registration_data()
@@ -50,6 +54,9 @@ class TestUserEdit(BaseCase):
 
         Assertions.assert_json_value_by_name(response4, "firstName", new_name, "Wrong name of the user after edit")
 
+    @allure.description("This test checks the ability to edit user without authorization")
+    @allure.feature('NEGATIVE')
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_change_user_without_authorization(self):
         new_name = "Changed Name"
         user_id = 1
@@ -61,6 +68,9 @@ class TestUserEdit(BaseCase):
         Assertions.assert_code_status(response, 400)
         assert response.text == f'Auth token not supplied', 'Unauthorized user tries to edit'
 
+    @allure.description("This test checks the ability to edit user being authorized under another user")
+    @allure.feature('NEGATIVE')
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_change_user_under_different_account(self):
         # REGISTER_FIRST_USER
         register_data = self.prepare_registration_data()
@@ -155,6 +165,9 @@ class TestUserEdit(BaseCase):
         Assertions.assert_json_value_by_name(response8, 'firstName', old_name,
                                              'Wrong name! Name has been changed by another user')
 
+    @allure.description("This test checks the ability to change on the invalid one")
+    @allure.feature('NEGATIVE')
+    @allure.severity(allure.severity_level.NORMAL)
     def test_change_invalid_email(self):
         # REGISTER
         register_data = self.prepare_registration_data()
@@ -192,6 +205,9 @@ class TestUserEdit(BaseCase):
         Assertions.assert_code_status(response3, 400)
         assert response3.text == "Invalid email format", "WARNING! It should be impossible to use this email format"
 
+    @allure.description("This test checks the ability to change user name on a short one ")
+    @allure.feature('POSITIVE')
+    @allure.severity(allure.severity_level.NORMAL)
     def test_change_short_name(self):
         # REGISTER
         register_data = self.prepare_registration_data()
