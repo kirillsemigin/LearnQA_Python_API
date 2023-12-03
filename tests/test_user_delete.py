@@ -1,9 +1,13 @@
 import requests
-
+import allure
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 
+@allure.epic("Removal cases")
 class TestUserDelete(BaseCase):
+    @allure.description("This test checks the ability to delete user with ID = 2")
+    @allure.feature('POSITIVE')
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_user_delete_id2(self):
         # REGISTER
         login_data = {
@@ -27,6 +31,9 @@ class TestUserDelete(BaseCase):
         assert actual_message == expected_message, f'Message in response is not equal to {expected_message}. ' \
                                                    f'Actual message = {actual_message}'
 
+    @allure.description("This test checks to delete user after authorization")
+    @allure.feature('POSITIVE')
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_create_authorize_delete(self):
         # REGISTER
         register_data = self.prepare_registration_data()
@@ -68,6 +75,9 @@ class TestUserDelete(BaseCase):
         Assertions.assert_code_status(response4, 404)
         assert response4.text == 'User not found', f'User is found and was not deleted'
 
+    @allure.description("This test checks the ability to delete user being authorized under another user")
+    @allure.feature('NEGATIVE')
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_delete_user_under_different_account(self):
         # REGISTER USER 1
         register_data = self.prepare_registration_data()
